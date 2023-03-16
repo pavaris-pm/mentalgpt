@@ -1,0 +1,6 @@
+transformers
+torch
+torchaudio
+pydub
+pythaitts
+numpy==1.21.6
