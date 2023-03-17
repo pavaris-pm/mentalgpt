@@ -9,7 +9,8 @@ from transformers import GPT2Tokenizer, TrainingArguments, Trainer, GPT2LMHeadMo
 from pythaitts import TTS
 from transformers import pipeline
 import time
-
+import requests
+import IPython
 
 # Load the pre-trained model and tokenizer for speech to text
 model_name = "wannaphong/wav2vec2-large-xlsr-53-th-cv8-deepcut"
@@ -65,15 +66,21 @@ def text_generation(transcription):
 
 
 # to convert an answer to voice forrmat (speech)
-def get_speech(text):
+def get_speech(text): #speaker volume speed can be added as parameters
    # for full version, text need to be tokenized first
-   speech_file = tts.tts(text,
-                      speaker_idx = 'Linda', 
-                      language_idx = 'th-th', 
-                      return_type = 'file', 
-                      filename = "voice_output.wav") 
+    url = "https://api-voice.botnoi.ai/api/service/generate_audio"
+    payload = {"text":text, "speaker":"1", "volume":1, "speed":1, "type_media":"m4a"}
+    headers = {
+      'Botnoi-Token': 'add TOKEN',
+      'Content-Type': 'application/json'
+    }
+    response = requests.request("POST", url, headers=headers, json=payload)
+    audio_url = response['audio_url']
+    response = requests.get(audio_url)
+    audio_content = response.content
+    IPython.display.Audio(audio_content, autoplay = True)
    
-   return f"Voice file saved as {speech_file}"
+   #return f"Voice file saved as {speech_file}"
 
 
 # completed function that integrates all models together
