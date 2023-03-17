@@ -7,8 +7,8 @@ import pandas as pd
 from torch.utils.data import Dataset, random_split
 from transformers import GPT2Tokenizer, TrainingArguments, Trainer, GPT2LMHeadModel, AutoTokenizer
 from transformers import pipeline
-import time
 import requests
+import time
 
 
 # Load the pre-trained model and tokenizer for speech to text
@@ -43,6 +43,7 @@ def transcribe_audio(audio_file):
     transcription = tokenizer.batch_decode(predicted_ids)[0]
 
     return transcription
+
 
 # mentalGPT for answering mental question
 def text_generation(transcription):
