@@ -6,11 +6,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import pandas as pd
 from torch.utils.data import Dataset, random_split
 from transformers import GPT2Tokenizer, TrainingArguments, Trainer, GPT2LMHeadModel, AutoTokenizer
-from pythaitts import TTS
 from transformers import pipeline
 import time
 import requests
-import IPython
+
 
 # Load the pre-trained model and tokenizer for speech to text
 model_name = "wannaphong/wav2vec2-large-xlsr-53-th-cv8-deepcut"
@@ -21,10 +20,6 @@ model = Wav2Vec2ForCTC.from_pretrained(model_name)
 
 # model for text generation - our trained mentalGPT
 mental_model = pipeline('text-generation','tontokoton/mentalgpt-gpt2')
-
-
-# text to speech model
-tts = TTS(pretrained='khanomtan', mode='last_checkpoint', version='1.0')
 
 
 #Define a function to transcribe audio files
@@ -71,16 +66,13 @@ def get_speech(text): #speaker volume speed can be added as parameters
     url = "https://api-voice.botnoi.ai/api/service/generate_audio"
     payload = {"text":text, "speaker":"1", "volume":1, "speed":1, "type_media":"m4a"}
     headers = {
-      'Botnoi-Token': 'add TOKEN',
+      # insert your botnoi token
+      'Botnoi-Token': 'f79d86f3ef94c43c9033a9f81454b9f13d93f29139749b622ad8ab9e1e117b8a',
       'Content-Type': 'application/json'
     }
     response = requests.request("POST", url, headers=headers, json=payload)
-    audio_url = response['audio_url']
-    response = requests.get(audio_url)
-    audio_content = response.content
-    IPython.display.Audio(audio_content, autoplay = True)
-   
-   #return f"Voice file saved as {speech_file}"
+    audio_url = response.json()['audio_url']
+    return audio_url
 
 
 # completed function that integrates all models together
@@ -95,9 +87,9 @@ def mental_assistant(audio_file_path):
   print("=========== text generation completed ===============")
 
   # convert an answer into voice file (.wav)
-  voice_file = get_speech(answer_text) # file will automatically saved into machine directory
+  audio_url = get_speech(answer_text) # file will automatically saved into machine directory
 
-  return voice_file
+  return audio_url
 
 
 # Implement the model
@@ -105,8 +97,8 @@ start_time = time.time()
 
 # input will be in format of voice file, and an output will be in the same format as well (.wav)
 # do not forget to change the input!
-mental_ans = mental_assistant("/content/e466648f-19de-440a-a604-f369c7757238.wav")
-print(mental_ans)
+answer_url = mental_assistant("/content/c5d85eb243a76a171f04d6360731f04a06cad7374af339a6b63db768b940d729_03152023124020153282.m4a")
+print(answer_url)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
