@@ -1,8 +1,13 @@
-# Mentalgpt 👩🏻‍⚕️
+# MentalGPT 👩🏻‍⚕️
  This is a project aimed at developing a voice-based chatbot that provides mental health recommendations to users who are feeling sad or depressed. The project is designed to enable users to communicate with the system using natural language, and receive personalized audio responses that provide emotional support and guidance.
+
+## Command-Line (under-development)
+ ```
+# should be able to pass an argument such as voice-input file
+python mentalgpt_speech.py
+```
  
- 
-## Simple Usage
+## Simple Usage of mental advice text generation
 
 ```python
 from transformers import pipeline
