@@ -18,6 +18,11 @@ python mentalgpt_speech.py
  
 ## Simple Usage of mental advice text generation
 
+- for demo version of MentalGPT, we have an avaiable model in huggingface, better try this one !
+https://huggingface.co/tontokoton/mentalgpt-v0.0.1
+
+
+- with python code :
 ```python
 from transformers import pipeline
 
