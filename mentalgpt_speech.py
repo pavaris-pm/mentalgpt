@@ -17,9 +17,9 @@ tokenizer = Wav2Vec2Tokenizer.from_pretrained(model_name)
 processor = Wav2Vec2Processor.from_pretrained(model_name)
 model = Wav2Vec2ForCTC.from_pretrained(model_name)
 
-
 # model for text generation - our trained mentalGPT
-mental_model = pipeline('text-generation','tontokoton/mentalgpt-gpt2')
+# mental_model = pipeline('text-generation','tontokoton/mentalgpt-gpt2')
+mental_model = pipeline('text-generation','tontokoton/mentalgpt-v0.0.1')
 
 
 #Define a function to transcribe audio files
@@ -68,7 +68,7 @@ def get_speech(text): #speaker volume speed can be added as parameters
     payload = {"text":text, "speaker":"1", "volume":1, "speed":1, "type_media":"m4a"}
     headers = {
       # insert your botnoi token
-      'Botnoi-Token': 'f79d86f3ef94c43c9033a9f81454b9f13d93f29139749b622ad8ab9e1e117b8a',
+      'Botnoi-Token': 'your token',
       'Content-Type': 'application/json'
     }
     response = requests.request("POST", url, headers=headers, json=payload)
